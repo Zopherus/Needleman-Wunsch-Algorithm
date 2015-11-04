@@ -1,0 +1,2 @@
+C:\Users\1012746\AppData\Local\Temporary Projects\Needleman–Wunsch Algorithm\bin\Debug\Needleman–Wunsch Algorithm.exe.config
+C:\Users\1012746\Desktop\Needleman–Wunsch Algorithm\Needleman–Wunsch Algorithm\bin\Debug\Needleman–Wunsch Algorithm.exe.config
