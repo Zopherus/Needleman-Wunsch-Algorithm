@@ -12,10 +12,12 @@ namespace Needleman_Wunsch_Algorithm
 		const int INDEL = -1;
 		const int MISMATCH = -1;
 
+		static string DNA1 = "";
+		static string DNA2 = "";
 		static void Main(string[] args)
 		{
-			string DNA1 = "GCATGCU";
-			string DNA2 = "GATTA";
+			DNA1 = "GCATGCU";
+			DNA2 = "GATTACA";
 			Console.WriteLine(ToString(NeedlemanWunsch(DNA1, DNA2)));
 			Console.ReadLine();
 		}
@@ -31,7 +33,7 @@ namespace Needleman_Wunsch_Algorithm
 			{
 				for (int y = 0; y < grid.GetLength(1); y++)
 				{
-					grid[x, y] = Math.Max(1,2);
+					grid[x, y] = CalculateScore(grid, x, y);
 				}
 			}
 			return grid;
@@ -39,10 +41,24 @@ namespace Needleman_Wunsch_Algorithm
 
 		static int CalculateScore(int[,] grid, int x, int y)
 		{
-			int left = grid[x - 1, y];
-			int topLeft = grid[x - 1, y - 1];
-			int top = grid[x, y - 1];
-			return Math.Max(left - 1, top - 1, topLeft);
+			int left = -1000;
+			int topLeft = -1000;
+			int top = -1000;
+			if (x == 0 && y == 0)
+				return 0;
+			if (x != 0)
+				left = grid[x - 1, y] + INDEL;
+			if (x != 0 && y != 0)
+			{
+				topLeft = grid[x - 1, y - 1];
+				if (DNA1.ElementAt(y - 1).Equals(DNA2.ElementAt(x - 1)))
+					topLeft += MATCH;
+				else
+					topLeft += MISMATCH;
+			}
+			if (y != 0)
+				top = grid[x, y- 1] + INDEL;
+			return Math.Max(left, Math.Max(top, topLeft));
 		}
 
 
