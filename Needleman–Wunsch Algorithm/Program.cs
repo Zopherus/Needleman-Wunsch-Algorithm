@@ -22,12 +22,13 @@ namespace Needleman_Wunsch_Algorithm
 			Console.ReadLine();
 		}
 
-		static int[,] NeedlemanWunsch(string a, string b)
+		static Node[,] NeedlemanWunsch(string a, string b)
 		{
 			//first string determines number of rows
 			//second string determines number of columns
 			//Imagine first string on left side of grid, second string on top
-			int[,] grid = new int[a.Length + 1, b.Length + 1];
+			Node[,] grid = new Node[a.Length + 1, b.Length + 1];
+			InitializeArray(grid);
 
 			for (int x = 0; x < grid.GetLength(0); x++)
 			{
@@ -39,37 +40,54 @@ namespace Needleman_Wunsch_Algorithm
 			return grid;
 		}
 
-		static int CalculateScore(int[,] grid, int x, int y)
+		static Node CalculateScore(Node[,] grid, int x, int y)
 		{
+			Node resultNode = new Node();
+
+			//Negative infinity
 			int left = -1000;
 			int topLeft = -1000;
 			int top = -1000;
+
 			if (x == 0 && y == 0)
-				return 0;
+				resultNode.Score = 0;
 			if (x != 0)
-				left = grid[x - 1, y] + INDEL;
+				left = grid[x - 1, y].Score + INDEL;
 			if (x != 0 && y != 0)
 			{
-				topLeft = grid[x - 1, y - 1];
+				topLeft = grid[x - 1, y - 1].Score;
 				if (DNA1.ElementAt(y - 1).Equals(DNA2.ElementAt(x - 1)))
 					topLeft += MATCH;
 				else
 					topLeft += MISMATCH;
 			}
 			if (y != 0)
-				top = grid[x, y- 1] + INDEL;
-			return Math.Max(left, Math.Max(top, topLeft));
+				top = grid[x, y- 1].Score + INDEL;
+
+			resultNode.Score = Math.Max(left, Math.Max(top, topLeft));
+			switch (
+			return resultNode;
 		}
 
+		static void InitializeArray(Node[,] grid)
+		{
+			for (int x = 0; x < grid.GetLength(0); x++)
+			{
+				for (int y = 0; y < grid.GetLength(1); y++)
+				{
+					grid[x, y] = new Node();
+				}
+			}
+		}
 
-		static string ToString(int[,] grid)
+		static string ToString(Node[,] grid)
 		{
 			string result = "";
 			for (int x = 0; x < grid.GetLength(0); x++)
 			{
 				for (int y = 0; y < grid.GetLength(1); y++)
 				{
-					result += grid[x, y].ToString();
+					result += grid[x, y].Score.ToString();
 					if (y != grid.GetLength(1) - 1)
 						result += ",";
 				}
