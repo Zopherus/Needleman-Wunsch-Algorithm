@@ -11,13 +11,13 @@ namespace Needleman_Wunsch_Algorithm
 	{
 		public int Score;
 		//The node where the score came from
-		public Node ScoreNode;
+		public List<Node> ScoreNodes = new List<Node>();
 
 		public Node() { }
-		public Node(int Score, Node ScoreNode)
+		public Node(int Score, List<Node> ScoreNodes)
 		{
 			this.Score = Score;
-			this.ScoreNode = ScoreNode;
+			this.ScoreNodes = ScoreNodes;
 		}
 
 
